@@ -174,19 +174,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   const register = async (email: string, pass: string, fullName: string) => {
-    const res = await authApi.register({ email, password: pass, full_name: fullName });
-    setStoredToken(res.access_token);
-    setToken(res.access_token);
-    const u: User = res.user || {
-      email,
-      full_name: fullName
-    };
-    setUser(u);
-    localStorage.setItem('interviewai_user', JSON.stringify(u));
-    // New user starts onboarding
-    setHasCompletedOnboardingState(false);
-    localStorage.removeItem('interviewai_onboarding_done');
-    await refreshResumes();
+    // Registers the account without automatically logging in
+    await authApi.register({ email, password: pass, full_name: fullName });
   };
 
   const logout = () => {
